@@ -29,6 +29,11 @@ class Request
     private $cardToken = null;
 
     /**
+     * @var ApplePayToken
+     */
+    private $applePayToken = null;
+
+    /**
      * @var Billing
      */
     private $billingData;
@@ -79,6 +84,14 @@ class Request
     public function setCardToken(CardToken $cardToken)
     {
         $this->cardToken = $cardToken;
+    }
+
+    /**
+     * @param ApplePayToken $applePayToken
+     */
+    public function setApplePayToken(ApplePayToken $applePayToken)
+    {
+        $this->applePayToken = $applePayToken;
     }
 
     /**
@@ -136,6 +149,10 @@ class Request
             } else {
                 $this->internalArray['CC_CVV'] = '';
             }
+        }
+
+        if (null !== $this->applePayToken) {
+            $this->internalArray['APPLE_PAY_TOKEN'] = $this->applePayToken->getToken();
         }
 
         $this->internalArray['BACK_REF'] = $this->order->getBackRef();
